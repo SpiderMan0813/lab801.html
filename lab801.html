@@ -43,7 +43,14 @@
     // ##3: Add layer control
     var layerControl = L.control.layers(baseMaps, null).addTo(map);
 
-    // ##4: We'll add the GeoJSON layer here later
+    // ##4: Load GeoJSON layer
+    fetch("acs_denver_2021.geojson")
+      .then(response => response.json())
+      .then(data => {
+        var geojsonLayer = L.geoJSON(data).addTo(map);
+        map.fitBounds(geojsonLayer.getBounds());
+        layerControl.addOverlay(geojsonLayer, "Denver ACS Layer");
+      });
   </script>
 </body>
 </html>
